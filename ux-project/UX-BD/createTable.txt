@@ -47,7 +47,8 @@ CREATE TABLE t_transferencia(
 	n_operacion INT NOT NULL PRIMARY KEY,
 	monto INT NOT NULL,
 	comentario varchar,
-fe	fecha date,
+	fecha date,
+	hora time,
 	n_cuenta_origen INT NOT NULL,
 	n_cuenta_destino INT NOT NULL,
 		CONSTRAINT fk_n_cuenta_origen
