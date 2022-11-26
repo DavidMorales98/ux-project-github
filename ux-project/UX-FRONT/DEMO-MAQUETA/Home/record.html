@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Solution</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fi fi-rr-menu-burger"></i>
+        </label>
+        <img src="../assets/image-removebg-preview_2.png" alt="">
+        <ul>
+            <li class="list btn-navbar">
+                <a href="account.html">
+                    <i class="fi fi-rr-users"></i>
+                    Cambiar cuenta</a>
+            </li>
+            <li class="list active btn-navbar">
+                <a href="#">
+                    <i class="fi fi-rr-clipboard-list"></i>
+                    Historial</a>
+            </li>
+            <li class="list btn-navbar">
+                <a href="transfer.html">
+                    <i class="fi fi-rr-usd-circle"></i>
+                    Transferencias</a>
+            </li>
+            <li id="msg-mantenimiento" class="btn-navbar">
+                <a href="#">
+                    <i class="fi fi-rr-credit-card"></i>
+                    Facturas</a>
+            </li>
+            <li id="msg-mantenimiento1" class="btn-navbar">
+                <a href="#">
+                    <i class="fi fi-rr-file-invoice-dollar"></i>
+                    Servicios</a>
+            </li>
+            <li class="btn-navbar">
+                <a href="../Login/index.html">
+                    <i class="fi fi-rr-exit"></i>
+                    Cerrar sesión</a>
+            </li>
+        </ul>
+    </nav>
+    <section>
+        <div class="section-text">
+            <h2>Cuenta corriente </h2>
+            <hr>
+            <h2 id="js-ncuenta1"> 1998-0603</h2>
+            <hr>
+            <h2 id="js-saldo1"> $1.200.000</h2>
+        </div>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Operacion</th>
+                        <th>Cuenta</th>
+                        <th>Tipo</th>
+                        <th>Fecha y Hora</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>166455251</td>
+                    <td>ANGELICA MARIA MORENO RECABARREN</td>
+                    <td>ABONO</td>
+                    <td>21-09-2022 13:40</td>
+                    <td><span>+$ </span>26882</td>
+                </tbody>
+                <tbody>
+                    <td>134738651</td>
+                    <td>NETFLIX, INC</td>
+                    <td>CARGO</td>
+                    <td>21-09-2022 02:30</td>
+                    <td><span>-$ </span>25000</td>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+<!-- Archivo personalizado de JS -->
+<script src="script.js"></script>
+
+</html>

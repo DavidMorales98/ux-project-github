@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 const conexion = (req, res) =>{
-    res.send();
+    res.send('Conexión a la base de datos exitosa!');
 };
 
 const getUsuario = async (req, res) =>{
@@ -59,8 +59,20 @@ const postContacto = async (req, res) =>{
     const response = await pool.query('INSERT INTO t_contactos\
     (rut_usuario1, rut_usuario2, n_cuenta)\
     VALUES ($1, $2, $3)',
-    rut,rut_usuario2,n_cuenta)
-    res.send('Contacto añadido');
+    rut,rut_usuario2,n_cuenta);
+    res.send('Contacto añadido!');
+};
+
+const deleteContacto = async (req, res ) =>{
+    const rut= req.params.rut;
+    const {rut_usuario2, n_cuenta} = req.body.params;
+    const response = await pool.query('delete\
+    from t_contacto\
+    where rut_usuario1 = $1\
+    and rut_usuario2 = $2\
+    and n_cuenta = $3',
+    rut,rut_usuario2,n_cuenta);
+    res.send('Contacto eliminado correctamente!')
 };
 
 module.exports = {
@@ -70,5 +82,6 @@ module.exports = {
     getAbonos,
     getCargos,
     getContactos,
-    postContacto
+    postContacto,
+    deleteContacto
 }

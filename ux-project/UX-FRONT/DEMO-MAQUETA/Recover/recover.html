@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Solution</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+      <!-- jQuery -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="img-logo">
+            <img src="../assets/image-removebg-preview_2.png" alt="" class="logo-ds">
+        </div>
+        <hr>
+        <div class="container-form">
+            <h1 class="welcome-text">Recuperar contraseña</h1>
+            <form action="#">
+                <div class="login-form">
+                    <div class="title">Para recuperar tu contraseña de acceso debes ingresar el RUT de registro</div>
+                    <div class="input-boxes">
+                        <div class="input-box">
+                            <i class="fi fi-rr-user"></i>
+                            <input class="placeholder form" type="text" placeholder="Ingrese su RUT" required>
+                        </div>
+                        <h4>Sin puntos ni guión, ej: 11111111-1</h4>
+                        <div class="button input-box" id="openModal">
+                            <input type="button" id="msg-info-mail"value="Recupera contraseña">
+                        </div>
+                        <div class="text"><a href="../Login/login.html">¿Ya tienes cuenta? <span>Haz click aquí</span></a>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</body>
+<!-- Archivo personalizado de JS -->
+<script src="script.js"></script>
+
+</html>
