@@ -1,0 +1,35 @@
+/*Obtener usuario por rut*/
+select * from t_usuario where rut = '11111111';
+
+/*Obtener contactos por rut*/
+select U.nombre
+from t_contacto C, t_usuario U
+where C.rut_usuario1 = '11111111' 
+and C.rut_usuario2 = U.rut;
+
+/*Obtener bancos por rut*/
+select B.nombre
+from t_usuario_banco UB, t_banco B
+where UB.rut_usuario = '11111111' 
+and UB.id_banco = B.id;
+
+/*Obtener detalle total de las cuentas por rut*/
+select C.n_cuenta, C.tipo_cuenta, C.saldo, B.nombre
+from t_cuenta C, t_banco B
+where C.rut_usuario = '22222222' 
+and C.id_banco = B.id
+
+/*Obtener saldo de la cuenta*/
+select saldo 
+from t_cuenta
+where n_cuenta = 111
+
+/*Obtener historial transferencias abono por rut*/
+SELECT DISTINCT tr.n_operacion, bn.nombre, tr.n_cuenta_origen, ct.tipo_cuenta, us.nombre, 'ABONO' as tipo, tr.monto
+FROM t_cuenta as ct, t_transferencia as tr, t_usuario as us, t_banco as bn
+WHERE tr.n_cuenta_destino = 111 and ct.n_cuenta = tr.n_cuenta_origen and us.rut = ct.rut_usuario and bn.id = ct.id_banco
+
+/*Obtener historial transferencias cargo por rut*/
+SELECT DISTINCT tr.n_operacion, bn.nombre, tr.n_cuenta_destino, ct.tipo_cuenta, us.nombre, 'CARGO' as tipo, tr.monto
+FROM t_cuenta as ct, t_transferencia as tr, t_usuario as us, t_banco as bn
+WHERE tr.n_cuenta_origen = 111 and ct.n_cuenta = tr.n_cuenta_destino and us.rut = ct.rut_usuario and bn.id = ct.id_banco

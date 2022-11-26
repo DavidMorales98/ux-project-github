@@ -1,0 +1,59 @@
+CREATE TABLE t_usuario(
+	rut serial NOT NULL PRIMARY KEY,
+	nombre varchar NOT NULL,
+	correo varchar NOT NULL,
+	contrasena varchar NOT NULL
+);
+CREATE TABLE t_contacto(
+	id serial NOT NULL PRIMARY KEY,
+	rut_usuario1 INT,
+	rut_usuario2 INT,
+	CONSTRAINT fk_rut_usuario1
+		 FOREIGN KEY (rut_usuario1)
+			REFERENCES t_usuario(rut),
+	CONSTRAINT fk_rut_usuario2
+		 FOREIGN KEY (rut_usuario2)
+			REFERENCES t_usuario(rut)
+);
+CREATE TABLE t_banco(
+	id serial NOT NULL PRIMARY KEY,
+	nombre varchar NOT NULL
+);
+CREATE TABLE t_usuario_banco(
+	id serial NOT NULL PRIMARY KEY,
+	rut_usuario INT,
+	id_banco INT,
+	CONSTRAINT fk_rut_usuario
+		 FOREIGN KEY (rut_usuario)
+			REFERENCES t_usuario(rut),
+	CONSTRAINT fk_id_banco
+		 FOREIGN KEY (id_banco)
+			REFERENCES t_banco(id)	
+);
+CREATE TABLE t_cuenta(
+	n_cuenta INT NOT NULL PRIMARY KEY,
+	tipo_cuenta varchar NOT NULL,
+	saldo int NOT NULL,
+	rut_usuario int,
+	id_banco int,
+	CONSTRAINT fk_rut_usuario
+		 FOREIGN KEY (rut_usuario)
+			REFERENCES t_usuario(rut),
+	CONSTRAINT fk_id_banco
+		 FOREIGN KEY (id_banco)
+			REFERENCES t_banco(id)	
+);
+CREATE TABLE t_transferencia(
+	n_operacion INT NOT NULL PRIMARY KEY,
+	monto INT NOT NULL,
+	comentario varchar,
+fe	fecha date,
+	n_cuenta_origen INT NOT NULL,
+	n_cuenta_destino INT NOT NULL,
+		CONSTRAINT fk_n_cuenta_origen
+		 FOREIGN KEY (n_cuenta_origen)
+			REFERENCES t_cuenta(n_cuenta),
+	CONSTRAINT fk_n_cuenta_destino
+		 FOREIGN KEY (n_cuenta_destino)
+			REFERENCES t_cuenta(n_cuenta)	
+);
