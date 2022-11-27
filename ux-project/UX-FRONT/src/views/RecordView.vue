@@ -19,7 +19,7 @@
                         Historial</a>
                 </li>
                 <li class="list btn-navbar">
-                    <a href="transfer.html">
+                    <a href="/transfer">
                         <i class="fi fi-rr-usd-circle"></i>
                         Transferencias</a>
                 </li>
@@ -34,7 +34,7 @@
                         Servicios</a>
                 </li>
                 <li class="btn-navbar">
-                    <a href="../Login/index.html" @click.prevent="logout()">
+                    <a href="/login" @click.prevent="logout()">
                         <i class="fi fi-rr-exit"></i>
                         Cerrar sesión</a>
                 </li>
@@ -42,11 +42,11 @@
         </div>
         <div class="section-table">
             <div class="section-text">
-                <h2>{{ cuenta.tipo_cuenta }} </h2>
+                <h2>Tipo cuenta: {{ cuenta.tipo_cuenta }} </h2>
                 <hr>
-                <h2 id="js-ncuenta1"> {{ cuenta.n_cuenta }}</h2>
+                <h2 id="js-ncuenta1">N° cuenta: {{ cuenta.n_cuenta }}</h2>
                 <hr>
-                <h2 id="js-saldo1">$ {{ cuenta.saldo }}</h2>
+                <h2 id="js-saldo1">Saldo: $ {{ cuenta.saldo }}</h2>
             </div>
             <h2 class="title-table">Historial de cargos</h2>
             <div class="table-wrapper">
@@ -135,30 +135,30 @@ export default {
             })
         },
         async limpiarLS() {
-        await localStorage.clear();
-    },
-    async logout() {
-        Swal.fire({
-            title: '¿Desea cerrar sesión?',
-            text: "Para volver a entrar deberá iniciar sesión nuevamente",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, cerrar sesión!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Cerrando sesión',
-                    'Vuelve pronto!',
-                    'success'
-                )
-                this.limpiarLS();
-                window.location.href = "/"
-            }
-        })
-    }
+            await localStorage.clear();
+        },
+        async logout() {
+            Swal.fire({
+                title: '¿Desea cerrar sesión?',
+                text: "Para volver a entrar deberá iniciar sesión nuevamente",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, cerrar sesión!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Cerrando sesión',
+                        'Vuelve pronto!',
+                        'success'
+                    )
+                    this.limpiarLS();
+                    window.location.href = "/"
+                }
+            })
+        }
     },
     async mounted() {
         await this.obtenerLocalStorage();

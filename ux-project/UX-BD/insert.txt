@@ -1,4 +1,13 @@
 insert into t_banco(nombre) values ('DSBank');
+insert into t_banco(nombre) values ('BBVA');
+insert into t_banco(nombre) values ('Banco de Chile');
+insert into t_banco(nombre) values ('Banco del Desarrollo');
+insert into t_banco(nombre) values ('Banco Estado');
+insert into t_banco(nombre) values ('Banco Falabella');
+insert into t_banco(nombre) values ('Banco Itaú');
+insert into t_banco(nombre) values ('Banco Ripley');
+insert into t_banco(nombre) values ('Banco Santander-Banefe');
+insert into t_banco(nombre) values ('Scotiabank');
 
 insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('11111111-1','David Morales','david.morales.p@usach.cl','123456',1);
 insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('22222222-1','Guillermo Donoso','guillermo.donoso.o@usach.cl','123456',1);
@@ -14,10 +23,8 @@ insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1313
 insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1414,'Cuenta vista',5000000,'44444444-1',1);
 insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1515,'Cuenta corriente',10990,'44444444-1',1);
 
-insert into t_contacto(rut_usuario1,rut_usuario2) values ('11111111','22222222');
-insert into t_contacto(rut_usuario1,rut_usuario2) values ('22222222','33333333');
-insert into t_contacto(rut_usuario1,rut_usuario2) values ('33333333','44444444');
-insert into t_contacto(rut_usuario1,rut_usuario2) values ('44444444','11111111');
+insert into t_contacto(id_ususario1,id_usuario2,id_cuenta) values (,,);
+
 
 insert into t_usuario_banco(rut_usuario,id_banco) values('11111111',1);
 insert into t_usuario_banco(rut_usuario,id_banco) values('22222222',2);

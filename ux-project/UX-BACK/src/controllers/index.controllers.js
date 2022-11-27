@@ -46,12 +46,9 @@ const getCargos = async (req, res) => {
 };
 
 const getContactos = async (req, res) => {
-    const response = await pool.query('select U.rut, U.nombre, C.n_cuenta, CC.tipo_cuenta, CC.saldo, B.nombre\
-        from t_contacto C, t_usuario U, t_cuenta CC, t_banco B\
-        where C.rut_usuario1 = $1\
-        and C.rut_usuario2 = U.rut\
-        and C.n_cuenta = CC.n_cuenta\
-        and CC.id_banco = B.id', [req.params.rut]);
+    const response = await pool.query('select C.id, U.rut as rutContacto,U.nombre, CC.n_cuenta as nCuenta, CC.tipo_cuenta as tipoCuenta, B.nombre as nombreBanco\
+    from t_contacto C, t_cuenta CC, t_banco B, t_usuario U\
+    where C.id_usuario1 = $1 and C.id_cuenta = CC.id and CC.id_banco = B.id and C.id_usuario2 = U.id', [req.params.id]);
     res.json(response.rows);
 };
 
@@ -66,14 +63,10 @@ const postContacto = async (req, res) => {
 };
 
 const deleteContacto = async (req, res) => {
-    const rut = req.params.rut;
-    const { rut_usuario2, n_cuenta } = req.body.params;
+    const id = req.params.id;
     const response = await pool.query('delete\
     from t_contacto\
-    where rut_usuario1 = $1\
-    and rut_usuario2 = $2\
-    and n_cuenta = $3',
-        rut, rut_usuario2, n_cuenta);
+    where id = $1',[id]);
     res.send('Contacto eliminado correctamente!')
 };
 
@@ -88,6 +81,11 @@ const postTransferencia = async (req, res) => {
         monto, comentario, fecha, hora, cuenta, n_cuenta_destino);
     res.send('Transferencia realizada con exito!')
 };
+
+const getBancos = async (req, res) =>{
+    const response = await pool.query('select * from t_banco');
+    res.json(response.rows);
+};
 module.exports = {
     conexion,
     getUsuario,
@@ -98,7 +96,8 @@ module.exports = {
     getContactos,
     postContacto,
     deleteContacto,
-    postTransferencia
+    postTransferencia,
+    getBancos
 }
 
 

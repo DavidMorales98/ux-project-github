@@ -88,13 +88,13 @@ export default {
             this.id_usuario = localStorage.getItem("id_st_usuario")
             this.nombre_profesor = localStorage.getItem("nombre_st_usuario")
         },
-
         selectAccount(n_cuenta,tipo_cuenta,saldo) {
             localStorage.setItem("n_cuenta_st", tipo_cuenta);
             localStorage.setItem("tipo_cuenta_st", n_cuenta);
             localStorage.setItem("saldo_cuenta_st", saldo);
             window.location.href = "/record"
         }
+        
     },
 
     async mounted() {
@@ -124,6 +124,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 999;
 }
 
 .nav-account img {
