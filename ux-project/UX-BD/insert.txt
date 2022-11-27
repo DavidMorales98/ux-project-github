@@ -1,18 +1,18 @@
-insert into t_banco(nombre) values ('BBVA');
-insert into t_banco(nombre) values ('Banco de Chile');
-insert into t_banco(nombre) values ('Banco del Desarrollo');
-insert into t_banco(nombre) values ('Banco Estado');
-insert into t_banco(nombre) values ('Banco Falabella');
-insert into t_banco(nombre) values ('Banco Itaú');
-insert into t_banco(nombre) values ('Banco Ripley');
-insert into t_banco(nombre) values ('Banco Santander-Banefe');
-insert into t_banco(nombre) values ('Scotiabank');
+insert into t_banco(nombre) values ('DSBank');
 
-insert into t_usuario (rut,nombre,correo,contrasena) values ('11111111','David Morales','david.morales.p@usach.cl','123456');
-insert into t_usuario (rut,nombre,correo,contrasena) values ('22222222','Guillermo Donoso','guillermo.donoso.o@usach.cl','123456');
-insert into t_usuario (rut,nombre,correo,contrasena) values ('33333333','Felipe Morales','felipe.morales.sa@usach.cl','123456');
-insert into t_usuario (rut,nombre,correo,contrasena) values ('44444444','Ignacio Fernandez','ignacio.fernandez.m@usach.cl','123456');
+insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('11111111-1','David Morales','david.morales.p@usach.cl','123456',1);
+insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('22222222-1','Guillermo Donoso','guillermo.donoso.o@usach.cl','123456',1);
+insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('33333333-1','Felipe Morales','felipe.morales.sa@usach.cl','123456',1);
+insert into t_usuario (rut,nombre,correo,contrasena,id_banco) values ('44444444-1','Ignacio Fernandez','ignacio.fernandez.m@usach.cl','123456',1);
 
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(111,'Cuenta corriente',20000,'11111111-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(222,'Cuenta vista',150,'11111111-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(333,'Cuenta vista',999,'22222222-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(444,'Cuenta corriente',3600,'22222222-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1212,'Cuenta vista',5000000,'33333333-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1313,'Cuenta corriente',10990,'33333333-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1414,'Cuenta vista',5000000,'44444444-1',1);
+insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,id_usuario,id_banco) values(1515,'Cuenta corriente',10990,'44444444-1',1);
 
 insert into t_contacto(rut_usuario1,rut_usuario2) values ('11111111','22222222');
 insert into t_contacto(rut_usuario1,rut_usuario2) values ('22222222','33333333');
@@ -26,10 +26,8 @@ insert into t_usuario_banco(rut_usuario,id_banco) values('44444444',4);
 insert into t_usuario_banco(rut_usuario,id_banco) values('11111111',5);
 insert into t_usuario_banco(rut_usuario,id_banco) values('22222222',6);
 
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(111,'Cuenta corriente',20000,'11111111',1);
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(222,'Cuenta vista',150,'22222222',2);
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(333,'Cuenta de ahorro',999,'33333333',3);
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(444,'Cuenta corriente',3600,'44444444',4);
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(1212,'Cuenta vista',5000000,'11111111',5);
-insert into t_cuenta(n_cuenta,tipo_cuenta,saldo,rut_usuario,id_banco) values(1313,'Cuenta vista',10990,'22222222',6);
+
+
+
+
 

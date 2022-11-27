@@ -5,6 +5,7 @@ const {
 conexion,
 getUsuario,
 getCuentas,
+getCuenta,
 getAbonos,
 getCargos,
 getContactos,
@@ -17,14 +18,15 @@ postTransferencia
 router.get('/conexion',conexion);
 
 //Login
-router.get('/usuario/:rut', getUsuario); //Información del usuario a partir de un RUT
+router.get('/usuario/:correo', getUsuario); //Información del usuario a partir de un correo
 
 //Account
-router.get('/cuentas/:rut', getCuentas);//Cuentas asociadas a partir un RUT
+router.get('/cuentas/:id', getCuentas);//Cuentas asociadas a partir un id
+router.get('/cuenta/:ncta', getCuenta); //Obtener detalle cuenta a partir del n_cuenta
 
 //Record
-router.get('/abono/:cta', getAbonos); //Abonos asociados a partir de un n_cuenta
-router.get('/cargo/:cta', getCargos); //Cargos asociados a partir de un n_cuenta
+router.get('/abono/:ncta', getAbonos); //Abonos asociados a partir de un n_cuenta
+router.get('/cargo/:ncta', getCargos); //Cargos asociados a partir de un n_cuenta
 
 //Contacts
 router.get('/contactos/:rut', getContactos); //Información contactos asociados a partir de un RUT

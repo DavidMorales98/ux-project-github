@@ -4,22 +4,8 @@ CREATE TABLE t_banco(
 );
 
 CREATE TABLE t_usuario(
-	rut serial NOT NULL PRIMARY KEY,
-	nombre varchar NOT NULL,
-	correo varchar NOT NULL,
-	contrasena varchar NOT NULL,
-	id_banco int,
-	CONSTRAINT fk_id_banco
-		 FOREIGN KEY (id_banco)
-			REFERENCES t_banco(id),
-);
-CREATE TABLE t_banco(
 	id serial NOT NULL PRIMARY KEY,
-	nombre varchar NOT NULL
-);
-
-CREATE TABLE t_usuario(
-	rut serial NOT NULL PRIMARY KEY,
+	rut varchar NOT NULL,
 	nombre varchar NOT NULL,
 	correo varchar NOT NULL,
 	contrasena varchar NOT NULL,
@@ -28,15 +14,17 @@ CREATE TABLE t_usuario(
 		 FOREIGN KEY (id_banco)
 			REFERENCES t_banco(id)
 );
+
 CREATE TABLE t_cuenta(
-	n_cuenta INT NOT NULL PRIMARY KEY,
+	id serial NOT NULL PRIMARY KEY,
+	n_cuenta INT NOT NULL,
 	tipo_cuenta varchar NOT NULL,
 	saldo int NOT NULL,
-	rut_usuario int,
+	id_usuario int,
 	id_banco int,
-	CONSTRAINT fk_rut_usuario
-		 FOREIGN KEY (rut_usuario)
-			REFERENCES t_usuario(rut),
+	CONSTRAINT fk_id_usuario
+		 FOREIGN KEY (id_usuario)
+			REFERENCES t_usuario(id),
 	CONSTRAINT fk_id_banco
 		 FOREIGN KEY (id_banco)
 			REFERENCES t_banco(id)	
@@ -44,33 +32,34 @@ CREATE TABLE t_cuenta(
 
 CREATE TABLE t_contacto(
 	id serial NOT NULL PRIMARY KEY,
-	rut_usuario1 INT,
-	rut_usuario2 INT,
-	n_cuenta int,
-	CONSTRAINT fk_rut_usuario1
-		 FOREIGN KEY (rut_usuario1)
-			REFERENCES t_usuario(rut),
-	CONSTRAINT fk_rut_usuario2
-		 FOREIGN KEY (rut_usuario2)
-			REFERENCES t_usuario(rut),
-	CONSTRAINT fk_n_cuenta
-		 FOREIGN KEY (n_cuenta)
-			REFERENCES t_cuenta(n_cuenta)
+	id_usuario1 INT,
+	id_usuario2 INT,
+	id_cuenta int,
+	CONSTRAINT fk_id_usuario1
+		 FOREIGN KEY (id_usuario1)
+			REFERENCES t_usuario(id),
+	CONSTRAINT fk_id_usuario2
+		 FOREIGN KEY (id_usuario2)
+			REFERENCES t_usuario(id),
+	CONSTRAINT fk_id_cuenta
+		 FOREIGN KEY (id_cuenta)
+			REFERENCES t_cuenta(id)
 
 );
 
 CREATE TABLE t_transferencia(
-	n_operacion INT NOT NULL PRIMARY KEY,
+	id serial NOT NULL PRIMARY KEY,
+	n_operacion INT,
 	monto INT NOT NULL,
 	comentario varchar,
 	fecha varchar,
 	hora varchar,
-	n_cuenta_origen INT NOT NULL,
-	n_cuenta_destino INT NOT NULL,
-		CONSTRAINT fk_n_cuenta_origen
-		 FOREIGN KEY (n_cuenta_origen)
-			REFERENCES t_cuenta(n_cuenta),
-	CONSTRAINT fk_n_cuenta_destino
-		 FOREIGN KEY (n_cuenta_destino)
-			REFERENCES t_cuenta(n_cuenta)	
+	id_cuenta_origen INT NOT NULL,
+	id_cuenta_destino INT NOT NULL,
+		CONSTRAINT fk_id_cuenta_origen
+		 FOREIGN KEY (id_cuenta_origen)
+			REFERENCES t_cuenta(id),
+	CONSTRAINT fk_id_cuenta_destino
+		 FOREIGN KEY (id_cuenta_destino)
+			REFERENCES t_cuenta(id)	
 );

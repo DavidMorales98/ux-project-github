@@ -1,111 +1,237 @@
 <template>
-    <section>
-        <div class="section-text">
-            <h2>TIPO DE CUENTA - NUMERO DE CUENTA</h2>
-            <h2>Saldo disponible: SALDO</h2>
+    <div class="body-account">
+        <div class="nav-account">
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fi fi-rr-menu-burger"></i>
+            </label>
+            <img src="../assets/image-removebg-preview_2.png" alt="">
+            <h1 class="title-nav">{{ nombre_usuario }}</h1>
+            <ul>
+                <li class="list btn-navbar">
+                    <a href="/account">
+                        <i class="fi fi-rr-users"></i>
+                        Cambiar cuenta</a>
+                </li>
+                <li class="list active btn-navbar">
+                    <a href="#">
+                        <i class="fi fi-rr-clipboard-list"></i>
+                        Historial</a>
+                </li>
+                <li class="list btn-navbar">
+                    <a href="transfer.html">
+                        <i class="fi fi-rr-usd-circle"></i>
+                        Transferencias</a>
+                </li>
+                <li id="msg-mantenimiento" class="btn-navbar" @click.prevent="mantencion()">
+                    <a href="#">
+                        <i class="fi fi-rr-credit-card"></i>
+                        Facturas</a>
+                </li>
+                <li id="msg-mantenimiento1" class="btn-navbar" @click.prevent="mantencion()">
+                    <a href="#">
+                        <i class="fi fi-rr-file-invoice-dollar"></i>
+                        Servicios</a>
+                </li>
+                <li class="btn-navbar">
+                    <a href="../Login/index.html" @click.prevent="logout()">
+                        <i class="fi fi-rr-exit"></i>
+                        Cerrar sesión</a>
+                </li>
+            </ul>
         </div>
-        <div class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>N° Operacion</th>
-                        <th>Cuenta</th>
-                        <th>Tipo</th>
-                        <th>Fecha y Hora</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <td>166455251</td>
-                    <td>ANGELICA MARIA MORENO RECABARREN</td>
-                    <td>ABONO</td>
-                    <td>21-09-2022 13:40</td>
-                    <td><span>+$ </span>26882</td>
-                </tbody>
-                <tbody>
-                    <td>134738651</td>
-                    <td>NETFLIX, INC</td>
-                    <td>CARGO</td>
-                    <td>21-09-2022 02:30</td>
-                    <td><span>-$ </span>25000</td>
-                </tbody>
-            </table>
+        <div class="section-table">
+            <div class="section-text">
+                <h2>{{ cuenta.tipo_cuenta }} </h2>
+                <hr>
+                <h2 id="js-ncuenta1"> {{ cuenta.n_cuenta }}</h2>
+                <hr>
+                <h2 id="js-saldo1">$ {{ cuenta.saldo }}</h2>
+            </div>
+            <h2 class="title-table">Historial de cargos</h2>
+            <div class="table-wrapper">
+                <div class="container-table table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N° Operacion</th>
+                                <th>Nombre</th>
+                                <th>Tipo cuenta</th>
+                                <th>Numero cuenta</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="(cargo, id) in cargos" :key="id">
+                            <td>cargo.n_operacion</td>
+                            <td>cargo.nombre</td>
+                            <td>cargo.tipo_cuenta</td>
+                            <td>cargo.n_cuenta</td>
+                            <td>CARGO</td>
+                            <td>cargo.fecha</td>
+                            <td>cargo.hora</td>
+                            <td><span>+$ </span>cargo.monto</td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h2 class="title-table">Historial de abonos</h2>
+            <div class="table-wrapper"></div>
+            <div class="container-table table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° Operacion</th>
+                            <th>Nombre</th>
+                            <th>Tipo cuenta</th>
+                            <th>Numero cuenta</th>
+                            <th>Tipo</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(abono, id) in abonos" :key="id">
+                        <td>abono.n_operacion</td>
+                        <td>abono.nombre</td>
+                        <td>abono.tipo_cuenta</td>
+                        <td>abono.n_cuenta</td>
+                        <td>ABONO</td>
+                        <td>abono.fecha</td>
+                        <td>abono.hora</td>
+                        <td><span>+$ </span>abono.monto</td>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </section>
+    </div>
 </template>
 
+
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import axios from 'axios';
 export default {
+    data: () => ({
+        n_cuenta: null,
+        cuenta: {},
+        nombre_usuario: "",
+        abonos: null,
+        cargos: null
+
+    }),
+    methods: {
+        obtenerLocalStorage() {
+            this.n_cuenta = localStorage.getItem("n_cuenta_st")
+            this.nombre_usuario = localStorage.getItem("nombre_st_usuario")
+        },
+        mantencion() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Lo sentimos, sitio en mantención',
+            })
+        },
+        async limpiarLS() {
+        await localStorage.clear();
+    },
+    async logout() {
+        Swal.fire({
+            title: '¿Desea cerrar sesión?',
+            text: "Para volver a entrar deberá iniciar sesión nuevamente",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, cerrar sesión!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Cerrando sesión',
+                    'Vuelve pronto!',
+                    'success'
+                )
+                this.limpiarLS();
+                window.location.href = "/"
+            }
+        })
+    }
+    },
+    async mounted() {
+        await this.obtenerLocalStorage();
+        await axios
+            .get("http://localhost:3000/cuenta/" + this.n_cuenta)
+            .then((result) => {
+                this.cuenta = result.data;
+                this.tipo_cuenta = this.cuenta.tipo_cuenta;
+            }).catch(e => {
+                console.log(e);
+            });
+        await axios
+            .get("http://localhost:3000/abono/" + this.n_cuenta)
+            .then((result) => {
+                this.abono = result.data;
+            }).catch(e => {
+                console.log(e);
+            });
+        await axios
+            .get("http://localhost:3000/cargo/" + this.n_cuenta)
+            .then((result) => {
+                this.cargos = result.data;
+            }).catch(e => {
+                console.log(e);
+            });
+    }
 
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
-
-:root {
-    --color1: #AC7D88;
-    --color2: #85586F;
-    --color3: #DEB6AB;
-    --color4: #FBECD1;
-    --color5: #B73E3E;
-    --color-text1: #333;
-    --color-text2: #fff;
+.section-table {
+    color: #fff
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    box-sizing: border-box;
+.table-wrapper {
+    position: relative;
 }
 
-body {
-    background-color: #C6C6C6;
-    min-height: 100vh;
-
+.table-scroll {
+    height: 250px;
+    overflow: auto;
+    margin-top: 20px;
 }
 
-
-section {
-    height: calc(100vh - 100px);
-    align-items: center;
-}
-
-
-
-
-.section-text {
-    padding: 5px;
-    text-align: center;
-    margin: 0 30% 30px;
-    border-radius: 25px;
-    background-color: rgba(0, 0, 0, 0.2);
-    align-items: center;
-}
-
-.section-text h1,
-h2 {
-    padding: 10px
-}
-
-section .container {
-    display: flex;
+.container-table {
     align-items: center;
     justify-content: center;
+    margin-top: 40px;
+    margin-left: 15%;
 }
 
 table {
-    margin-top: 50px;
+    margin-top: 10px;
     border: 1px solid var(--color2);
-    color: var(--color-text2);
+    color: #333;
     font-size: 14px;
     table-layout: fixed;
     border-collapse: collapse;
     border-radius: 5px 5px 0 0;
     overflow-x: auto;
     box-shadow: 0 0 20px rgb(0, 0, 0, 0.3);
-    background-color: var(--color1);
+    background-color: #fff;
+    margin-left: 80px;
+    height: 250px;
+
+}
+
+.title-table {
+    text-decoration: underline #6d9886;
+    margin-bottom: -40px;
+    margin-left: 300px;
+    margin-top: 50px;
 }
 
 .compPago h1 {
@@ -121,6 +247,7 @@ th {
     padding: 20px 15px;
     font-weight: 700;
     text-transform: uppercase;
+    color: #fff;
 }
 
 td {
@@ -131,98 +258,5 @@ td {
 
 tbody tr:hover {
     background-color: var(--color3);
-}
-
-
-
-#formulario{
-    margin-top: 40px;
-    border:solid 2px #708090;
-    border-radius: 15px;
-    box-shadow: 12px 12px 15px #3d2d2d;
-    margin:0 auto;
-    width :400px;
-    padding:14px;
-    background: var(--color-text2);
-}
-#formulario h1{
-    font-size:28px;
-    font-weight: bold;
-    margin:10px;
-    text-align: center;
-    border: 2px solid var(--color4);
-    color: var(--color-text2);
-    background-color: var(--color1);
-}
-
-#formulario h2{
-    text-decoration: underline var(--color-text1);
-}
-
-#formulario .select-transf{
-    border: 4px solid var(--color-text1);
-    padding: 5px;
-    width: 100%;
-    height: 60px;
-}
-.select-transf, .option-transf{
-    font-size: 16px;
-}
-
-#formulario label{
-    display:block;
-    font-weight: bold;
-    text-align: right;
-    width:130px;
-    float:left;
-    padding: 3px;
-    text-align: center;
-
-}
-
-
-#formulario input, .select-nc, .option-nc{
-    float:left;
-    font-size:12px;
-    padding:2px 2px;
-    border:salid 0px #708090;
-    width:200px;
-    height: 40px;
-    margin:2px 10px 8px;
-
-}
-
-#formulario button{
-    clear:both;
-    margin:0 auto;
-    width:100px;
-    height:31px;
-    background:#696969;
-    text-align:center;
-    line-height:31px;
-    color : #fff;
-    font-size:11px;
-    font-weight:bold;
-    cursor: pointer;
-}
-h4 {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-text1);
-    text-decoration: none;
-    font-style: italic;
-    margin-left: 150px;
-    line-height: 10px;
-}
-
-.btn-transf{
-    margin-left: 75px;
-}
-.img-caution{
-    height: 24px;
-}
-
-.img-caution img{
-    height: 100%;
 }
 </style>

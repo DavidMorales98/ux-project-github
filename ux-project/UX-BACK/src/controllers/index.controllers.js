@@ -13,34 +13,36 @@ const conexion = (req, res) => {
 
 const getUsuario = async (req, res) => {
     const response = await pool.query('SELECT * from t_usuario\
-        WHERE rut = $1', [req.params.rut]);
-    res.send().json(response.rows);
+        WHERE correo = $1', [req.params.correo]);
+    res.json(response.rows[0]);
 };
 
 const getCuentas = async (req, res) => {
-    const response = await pool.query('SELECT C.n_cuenta, C.tipo_cuenta, C.saldo, B.nombre FROM t_cuenta C, t_banco B\
-        WHERE C.rut_usuario = $1\
-        and C.id_banco = B.id', [req.params.cta]);
-    res.send().json(response.rows);
+    const response = await pool.query('SELECT n_cuenta, tipo_cuenta, saldo  FROM t_cuenta\
+    WHERE id_usuario = $1', [req.params.id]);
+    res.json(response.rows);
 };
 
+const getCuenta = async (req, res) =>{
+    const response = await pool.query('SELECT * from t_cuenta where n_cuenta = $1', [req.params.ncta]);
+    res.json(response.rows[0]);
+}
+
 const getAbonos = async (req, res) => {
-    const response = await pool.query('SELECT DISTINCT tr.n_operacion, bn.nombre, tr.n_cuenta_origen, ct.tipo_cuenta, us.nombre, "ABONO" as tipo, tr.monto FROM t_cuenta as ct, t_transferencia as tr, t_usuario as us, t_banco as bn\
-        WHERE tr.n_cuenta_destino = $1\
-        and ct.n_cuenta = tr.n_cuenta_origen \
-        and us.rut = ct.rut_usuario\
-        and bn.id = ct.id_banco', [req.params.cta]);
-    res.send().json(response.rows);
+    const response = await pool.query('SELECT DISTINCT tr.n_operacion, bn.nombre, tr.id_cuenta_origen, ct.tipo_cuenta, us.nombre, tr.monto \
+    FROM t_cuenta as ct, t_transferencia as tr, t_usuario as us, t_banco as bn\
+    WHERE tr.id_cuenta_destino = $1 and ct.id = tr.id_cuenta_origen and us.id = ct.id_usuario and bn.id = ct.id_banco', [req.params.ncta]);
+    res.json(response.rows);
 };
 
 const getCargos = async (req, res) => {
-    const response = await pool.query('SELECT DISTINCT tr.n_operacion, bn.nombre, tr.n_cuenta_destino, ct.tipo_cuenta, us.nombre, "CARGO" as tipo, tr.monto\
+    const response = await pool.query('SELECT DISTINCT tr.n_operacion, bn.nombre, tr.id_cuenta_destino, ct.tipo_cuenta, us.nombre, tr.monto\
         FROM t_cuenta as ct, t_transferencia as tr, t_usuario as us, t_banco as bn\
-        WHERE tr.n_cuenta_origen = $1\
-        and ct.n_cuenta = tr.n_cuenta_destino\
-        and us.rut = ct.rut_usuario \
-        and bn.id = ct.id_banco', [req.params.rut]);
-    res.send().json(response.rows);
+        WHERE tr.id_cuenta_origen = $1\
+        and ct.id = tr.id_cuenta_destino\
+        and us.id = ct.id_usuario \
+        and bn.id = ct.id_banco', [req.params.ncta]);
+    res.json(response.rows);
 };
 
 const getContactos = async (req, res) => {
@@ -50,7 +52,7 @@ const getContactos = async (req, res) => {
         and C.rut_usuario2 = U.rut\
         and C.n_cuenta = CC.n_cuenta\
         and CC.id_banco = B.id', [req.params.rut]);
-    res.send().json(response.rows);
+    res.json(response.rows);
 };
 
 const postContacto = async (req, res) => {
@@ -90,6 +92,7 @@ module.exports = {
     conexion,
     getUsuario,
     getCuentas,
+    getCuenta,
     getAbonos,
     getCargos,
     getContactos,
