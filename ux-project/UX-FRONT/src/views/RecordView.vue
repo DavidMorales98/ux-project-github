@@ -118,8 +118,8 @@ export default {
         n_cuenta: null,
         cuenta: {},
         nombre_usuario: "",
-        abonos: null,
-        cargos: null
+        abonos: {},
+        cargos: {}
 
     }),
     methods: {

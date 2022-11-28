@@ -391,11 +391,8 @@ export default {
             })
         },
         contactoAdd() {
-            var rut = document.getElementById('rut').value;
-            var banco = document.getElementById('banco').selected;
-            var tcuenta = document.getElementById('tcuenta').value;
-            var ncuenta = document.getElementById('ncuenta').selected;
-            if (rut == "" || banco == "" || tcuenta == "" || ncuenta == "") {
+            var ncuenta = document.getElementById('ncuenta')
+            if (ncuenta == "") {
                 Swal.fire({
                     title: 'Confirmación',
                     text: "¿Confirma que los datos son correctos?",
@@ -412,7 +409,6 @@ export default {
                             'Nuevo contacto añadido!',
                             'success'
                         )
-                        console.log(banco + rut + tcuenta + ncuenta)
                         this.modal1();
                     }
                 })
@@ -459,7 +455,7 @@ export default {
             }
             else {
                 if (monto > this.saldo) {
-                    Swal.fire({
+                    await Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'No cuenta con saldo suficiente para la transferencia!',
@@ -467,32 +463,44 @@ export default {
                 }
                 else {
                     await Swal.fire({
-                        icon: 'success',
-                        title: '¡Transferencia realizada!',
-                        showConfirmButton: false,
-                        timer: 1700,
-                    })
-                    var nuevoMonto = this.saldo - monto
-                    let payload = {
-                        monto: monto,
-                        comentario: "",
-                        id_cuenta_origen: this.id_cuenta,
-                        id_cuenta_destino: id_cuenta,
-                        saldo: nuevoMonto
-                    }
-                    await axios
-                        .post("http://localhost:3000/transferir/", payload)
-                        .then((result) => {
-                            this.took = result.data;
-                            console.log(this.took)
-                            this.dialog = false;
+                        title: 'Confirmación',
+                        text: "¿Confirma que los datos son correctos?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, transferir!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                'Transferencia',
+                                'Transferencia realizada con exito!',
+                                'success'
+                            )
+                            var nuevoMonto = this.saldo - monto
+                            let payload = {
+                                monto: monto,
+                                comentario: "",
+                                id_cuenta_origen: this.id_cuenta,
+                                id_cuenta_destino: id_cuenta,
+                                saldo: nuevoMonto
+                            }
+                            axios
+                                .post("http://localhost:3000/transferir/", payload)
+                                .then((result) => {
+                                    this.took = result.data;
+                                    console.log(this.took)
+                                    this.dialog = false;
 
-                        }).catch(e => {
-                            console.log(e);
-                        });
-                    location.reload();
-                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
-                    window.location.href = "/transfer";
+                                }).catch(e => {
+                                    console.log(e);
+                                });
+                            location.reload();
+                            localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                            
+                        }
+                    })
 
                 }
             }
