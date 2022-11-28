@@ -11,7 +11,7 @@
     --color1: #393e46;
     --color2: #6d9886;
     --color3: #f2e7d5;
-    --color4: #F7f7f7;
+    --color4: #cfcece;
     --color-text1: #333;
     --color-text2: #fff;
 }

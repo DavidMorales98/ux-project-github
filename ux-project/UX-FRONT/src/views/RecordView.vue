@@ -65,14 +65,14 @@
                             </tr>
                         </thead>
                         <tbody v-for="(cargo, id) in cargos" :key="id">
-                            <td>cargo.n_operacion</td>
-                            <td>cargo.nombre</td>
-                            <td>cargo.tipo_cuenta</td>
-                            <td>cargo.n_cuenta</td>
+                            <td>{{cargo.id}}</td>
+                            <td>{{cargo.nombre}}</td>
+                            <td>{{cargo.tipo_cuenta}}</td>
+                            <td>{{cargo.n_cuenta}}</td>
                             <td>CARGO</td>
-                            <td>cargo.fecha</td>
-                            <td>cargo.hora</td>
-                            <td><span>+$ </span>cargo.monto</td>
+                            <td>{{cargo.fecha}}</td>
+                            <td>{{cargo.hora}}</td>
+                            <td><span>+$ </span>{{cargo.monto}}</td>
                         </tbody>
                     </table>
                 </div>
@@ -94,14 +94,14 @@
                         </tr>
                     </thead>
                     <tbody v-for="(abono, id) in abonos" :key="id">
-                        <td>abono.n_operacion</td>
-                        <td>abono.nombre</td>
-                        <td>abono.tipo_cuenta</td>
-                        <td>abono.n_cuenta</td>
+                        <td>{{abono.id}}</td>
+                        <td>{{abono.nombre}}</td>
+                        <td>{{abono.tipo_cuenta}}</td>
+                        <td>{{abono.n_cuenta}}</td>
                         <td>ABONO</td>
-                        <td>abono.fecha</td>
-                        <td>abono.hora</td>
-                        <td><span>+$ </span>abono.monto</td>
+                        <td>{{abono.fecha}}</td>
+                        <td>{{abono.hora}}</td>
+                        <td><span>+$ </span>{{abono.monto}}</td>
                     </tbody>
                 </table>
             </div>
@@ -126,6 +126,8 @@ export default {
         obtenerLocalStorage() {
             this.n_cuenta = localStorage.getItem("n_cuenta_st")
             this.nombre_usuario = localStorage.getItem("nombre_st_usuario")
+            this.id_usuario = localStorage.getItem("id_st_usuario")
+            this.id_cuenta = localStorage.getItem("id_cuenta_st")
         },
         mantencion() {
             Swal.fire({
@@ -171,14 +173,14 @@ export default {
                 console.log(e);
             });
         await axios
-            .get("http://localhost:3000/abono/" + this.n_cuenta)
+            .get("http://localhost:3000/abono/" + this.id_cuenta)
             .then((result) => {
                 this.abono = result.data;
             }).catch(e => {
                 console.log(e);
             });
         await axios
-            .get("http://localhost:3000/cargo/" + this.n_cuenta)
+            .get("http://localhost:3000/cargo/" + this.cuenta)
             .then((result) => {
                 this.cargos = result.data;
             }).catch(e => {

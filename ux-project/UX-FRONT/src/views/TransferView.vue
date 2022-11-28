@@ -51,7 +51,8 @@
         </div>
         <div class="section-transfer">
             <div class="section-contact">
-                <h1 class="ts">Mis contactos</h1>
+                <h1 class="ts">Mis contactos<span class="espacio">________</span><i class="fi fi-rr-user-add"
+                        @click.prevent="modal1()"></i></h1>
                 <div class="container-section-contact">
                     <a href="#" v-for="(contacto, id) in contactos" :key="id"
                         @click.prevent="eliminarContacto(contacto.id)">
@@ -73,121 +74,158 @@
             <div class="section-transfer-option">
                 <h1 class="ts">Realizar transferencia</h1>
                 <div class="container-section-trans">
-                    <div class="button input-box">
-                        <div class="button input-box">
-                            <i class="fi fi-sr-envelope"></i>
-                            <a>
-                                <input type="button" id="my-account" value="Mis cuentas DS Bank" @click="modal()" />
-                            </a>
+                    <div class="container1">
+                        <div class="input-box1">
+                            <input class="input-1" id="my-account" value="Mis cuentas DS Bank"
+                                @click.prevent="modal2()" />
                         </div>
                     </div>
-                    <div class="button input-box">
-                        <div class="button input-box">
-                            <i class="fi fi-sr-envelope"></i>
-                            <a>
-                                <input type="button" id="my-contact" value="Mis contactos" @click="modal2()" />
-                            </a>
+                    <div class="container2">
+                        <div class="input-box2">
+                            <input class="input-2" type="button" id="my-contact" value="Mis contactos"
+                                @click.prevent="modal3()" />
                         </div>
                     </div>
-                    <div class="button input-box">
-                        <div class="button input-box">
-                            <i class="fi fi-sr-envelope"></i>
-                            <a>
-                                <input type="button" id="new-contact" value="Nuevo contacto"
-                                    @click.prevent="modal3()" />
-                            </a>
+                    <div class="container3">
+                        <div class="input-box3">
+                            <input class="input-3" type="button" id="new-contact" value="Nuevo contacto"
+                                @click.prevent="modal4()" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="modal" class="modal-container">
-            <h2>Mis cuentas DS Bank</h2>
-            <div class="modal-content">
-                <div class="sub1">
-                    <h2>Mis cuentas DS Bank</h2>
-                </div>
-                <select class="select-transf">
-                    <option class="option" selected disabled>Seleccione su cuenta DS Bank</option>
-                    <option class="option" id="MiCta" v-for="(cuenta, id) in miscuentas" :key="id">{{ cuenta.n_cuenta }} -
-                        {{ cuenta.tipo_cuenta }}</option>
-                </select>
-                <h2>Monto</h2>
-                <input class="monto-trans" type="text" id="monto1" name="monto" required=""
-                    placeholder="Indique el monto a transferir" />
-
-                <div class="button input-box1 modal-acept1">
-                    <input class=".form-input" type="button" value="Aceptar" id="transfMC"
-                        @click.prevent="transferenciaMC()" />
-                    <input class=".form-input" type="button" value="Cancelar" id="transfMC"
-                        @click.prevent="cancelarTransf()" />
-                </div>
-            </div>
-        </div>
-        <div id="modal2" class="modal-container2">
-            <div class="modal-content">
-                <div class="sub">
-                    <h2>Mis contactos</h2>
-                </div>
-                <select class="select-transf">
-                    <option class="option-transf" selected disabled>Seleccione un contacto</option>
-                    <option class="option-transf" v-for="(contacto, id) in contactos" :key="id">{{ contacto.ncuenta }} -
-                        {{ contacto.nombre }}</option>
-                </select>
-                <h2>Monto</h2>
-                <input class="monto-trans" type="text" id="monto2" name="monto" required=""
-                    placeholder="Indique el monto de transferencia" />
-
-                <div class="button input-box1 modal-acept2">
-                    <input class=".form-input" type="button" value="Aceptar" id="transfMC"
-                        @click.prevent="transferenciaMCont()" />
-                    <input class=".form-input" type="button" value="Cancelar" id="transfMC"
-                        @click.prevent="cancelarTransf2()" />
-                </div>
-            </div>
-        </div>
-        <div id="modal3" class="modal-container3">
-            <div class="modal-content3">
-                <div class="" id="formulario3">
+        <div id="modal1" class="modal-container1">
+            <div class="modal-content1">
+                <div id="formularioNC">
                     <div class="sub">
                         <h2>Nuevo contacto</h2>
                     </div>
                     <label>Nombre y apellido</label>
-                    <input class="form-input" type="text" id="nombre3" name="nombre" required=""
+                    <input type="text" id="nombre" name="nombre" required=""
                         placeholder="Indique el nombre y apellido" />
                     <label>RUT</label>
-                    <input class="form-input" type="text" id="rut3" name="nombre" required=""
+                    <input type="text" id="rut" name="nombre" required=""
                         placeholder="Indique RUT sin puntos ni digito verificador" />
-
                     <label>Correo</label>
-                    <input class="form-input" type="email" id="correo3" name="nombre" required=""
-                        placeholder="Indique correo electrónico" />
+                    <input type="email" id="name" name="nombre" required="" placeholder="Indique correo electrónico" />
                     <label>Banco</label>
-                    <select class="select-nc">
-                        <option class="option-nc" selected disabled>Indique el banco</option>
-                        <option class="option-nc" v-for="(banco, id) in bancos" :key="id">{{ banco.nombre }}</option>
+                    <select>
+                        <option selected disabled>Indique el banco</option>
+                        <option name="" id="banco" v-for="banco in bancos" :key="banco.id">{{ banco.nombre }}</option>
                     </select>
                     <label>Tipo de cuenta</label>
-                    <select class="select-nc">
-                        <option class="option-nc" selected disabled>Indique el tipo de cuenta</option>
-                        <option class="option-nc">Cuenta de ahorro</option>
-                        <option class="option-nc">Cuenta corriente</option>
-                        <option class="option-nc">Cuenta vista</option>
+                    <select>
+                        <option selected disabled>Indique el tipo de cuenta</option>
+                        <option>Cuenta de ahorro</option>
+                        <option>Cuenta corriente</option>
+                        <option>Cuenta vista</option>
                     </select>
                     <label>Numero de cuenta</label>
-                    <input class="form-input" type="number" id="ncuenta3" name="nombre" required=""
+                    <input type="number" id="ncuenta" name="nombre" required=""
                         placeholder="Indique el numero de cuenta" />
-                    <label>Monto</label>
-                    <input class=".form-input" type="number" id="monto3" name="nombre" required=""
-                        placeholder="Indique el monto de transferencia" />
-                    <input class=".form-input" type="button" value="Aceptar" id="close"
-                        @click.prevent="transferenciaNCont()" />
-                    <input class=".form-input" type="button" value="Cancelar" id="close"
-                        @click.prevent="cancelarTransf3()" />
+                    <div class="input-box1">
+                        <input class="input-1" type="button" id="msg-info-mail" value="Añadir contacto"
+                            @click.prevent="contactoAdd()" />
+                        <input class="input-1 cancel" type="button" id="msg-info-mail" value="Cancelar"
+                            @click.prevent="cancelarAdd()" />
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="modal2" class="modal-container1">
+            <div class="modal-content1">
+                <div id="formularioNC">
+                    <div class="sub">
+                        <h2>Transferir a mis cuentas</h2>
+                    </div>
+                    <label>Cuenta</label>
+                    <select v-model="selected2" placeholder="Indique la cuenta">
+                        <option disabled value="">Indique la cuenta</option>
+                        <option v-for="cuenta in miscuentas" :value="cuenta.id" :key="cuenta.id">
+                            {{ cuenta.n_cuenta }} - {{ cuenta.tipo_cuenta }}
+                        </option>
+                    </select>
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto2" name="monto" required="" placeholder="Ingrese el monto" />
+                    <div class="input-box1">
+
+                        <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
+                            @click.prevent="transferenciaMC(selected2)" />
+                        <input class="input-1 cancel" type="button" id="msg-info-mail" value="Cancelar"
+                            @click.prevent="cancelarTransf()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal3" class="modal-container1">
+            <div class="modal-content1">
+                <div id="formularioNC">
+                    <div class="sub">
+                        <h2>Transferir a mis contactos</h2>
+                    </div>
+                    <label>Contacto</label>
+                    <select v-model="selected3" placeholder="Indique un contacto">
+                        <option disabled value="">Indique un contacto</option>
+                        <option v-for="contacto in contactos" :key="contacto.id" :value="contacto.id_cuenta">
+                            {{ contacto.ncuenta }} - {{ contacto.nombre }}</option>
+                    </select>
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto3" name="monto" required="" placeholder="Ingrese el monto" />
+                    <div class="input-box1">
+                        <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
+                            @click.prevent="transferenciaMCont(selected3)">
+                        <input class="input-1 cancel" type="button" id="msg-info-mail" value="Cancelar"
+                            @click.prevent="cancelarTransf2()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal4" class="modal-container1">
+            <div class="modal-content1">
+                <div id="formularioNC">
+                    <div class="sub">
+                        <h2>Nuevo contacto</h2>
+                    </div>
+                    <label>Nombre y apellido</label>
+                    <input type="text" id="nombre4" name="nombre" required=""
+                        placeholder="Indique el nombre y apellido" />
+                    <label>RUT</label>
+                    <input type="text" id="rut4" name="nombre" required=""
+                        placeholder="Indique RUT sin puntos ni digito verificador" />
+                    <label>Correo</label>
+                    <input type="email" id="email4" name="nombre" required=""
+                        placeholder="Indique correo electrónico" />
+                    <label>Banco</label>
+                    <select v-model="selectedBank2" placeholder="Indique un banco">
+                        <option value="" disabled>Indique el banco</option>
+                        <option v-for="banco in bancos" :key="banco.id" :value="banco.id">{{ banco.nombre }}</option>
+                    </select>
+
+                    <label>Tipo de cuenta</label>
+                    <select>
+                        <option selected disabled>Indique el tipo de cuenta</option>
+                        <option>Cuenta de ahorro</option>
+                        <option>Cuenta corriente</option>
+                        <option>Cuenta vista</option>
+                    </select>
+                    <label>Numero de cuenta</label>
+                    <input type="number" id="ncuenta4" name="nombre" required=""
+                        placeholder="Indique el numero de cuenta" />
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto4" name="monto" required="" placeholder="Ingrese el monto" />
+                    <div class="input-box1">
+                        <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
+                            @click.prevent="transferenciaNCont(selectedBank2)">
+                        <input class="input-1 cancel" type="button" id="msg-info-mail" value="Cancelar"
+                            @click.prevent="cancelarTransf3()">
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -201,12 +239,19 @@ export default {
         nombre_usuario: "",
         id_usuario: null,
         contactos: null,
-        miscuentas: null
+        miscuentas: null,
+        selected2: '',
+        selected3: '',
+        todook: '',
+        dialog: false,
+        saldo: 0,
+        selectedBank2: ''
+
 
     }),
     methods: {
-        modal() {
-            let modal = document.getElementById('modal');
+        modal1() {
+            let modal = document.getElementById('modal1');
             if (modal.style.visibility == "visible") {
                 modal.style.visibility = "hidden";
             }
@@ -232,10 +277,26 @@ export default {
                 modal.style.visibility = "visible";
             }
         },
+        modal4() {
+            let modal = document.getElementById('modal4');
+            if (modal.style.visibility == "visible") {
+                modal.style.visibility = "hidden";
+            }
+            else {
+                modal.style.visibility = "visible";
+            }
+        },
         obtenerLocalStorage() {
             this.n_cuenta = localStorage.getItem("n_cuenta_st")
             this.nombre_usuario = localStorage.getItem("nombre_st_usuario")
             this.id_usuario = localStorage.getItem("id_st_usuario")
+            this.id_cuenta = localStorage.getItem("id_cuenta_st")
+        },
+        guardarLocalStorage() {
+            localStorage.setItem("saldo_cuenta_st", this.saldo);
+        },
+        async guardar() {
+            await this.guardarLocalStorage();
         },
         mantencion() {
             Swal.fire({
@@ -269,6 +330,7 @@ export default {
                 }
             })
         },
+
         async deleteContacto(id) {
             await axios
                 .delete("http://localhost:3000/contacto/" + id)
@@ -304,28 +366,64 @@ export default {
                 }
             })
         },
-        cancelarTransf() {
+        cancelarAdd() {
             Swal.fire({
-                title: '¿Desea cancelar la transferencia',
+                title: '¿Desea cancelar añadir al contacto?',
                 text: "Si cancela perderá el avance del proceso",
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, cancelar transferencia!'
+                confirmButtonText: 'Si, no añadir!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Cancelando',
-                        'Transferencia cancelada!',
+                        'Añadir contacto',
+                        'Cancelado!',
                         'success'
                     )
-                    this.modal();
+                    this.modal1();
                 }
             })
         },
-        cancelarTransf2() {
+        contactoAdd() {
+            var rut = document.getElementById('rut').value;
+            var banco = document.getElementById('banco').selected;
+            var tcuenta = document.getElementById('tcuenta').value;
+            var ncuenta = document.getElementById('ncuenta').selected;
+            if (rut == "" || banco == "" || tcuenta == "" || ncuenta == "") {
+                Swal.fire({
+                    title: 'Confirmación',
+                    text: "¿Confirma que los datos son correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, añadir contacto!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Añadir contacto',
+                            'Nuevo contacto añadido!',
+                            'success'
+                        )
+                        console.log(banco + rut + tcuenta + ncuenta)
+                        this.modal1();
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Todos los campos RUT, BANCO, TIPO DE CUENTA Y NUMERO DE CUENTA son obligatorios!',
+                })
+            }
+        },
+
+        cancelarTransf() {
             Swal.fire({
                 title: '¿Desea cancelar la transferencia',
                 text: "Si cancela perderá el avance del proceso",
@@ -346,7 +444,59 @@ export default {
                 }
             })
         },
-        cancelarTransf3() {
+        async transferenciaMC(id_cuenta) {
+            await this.obtenerLocalStorage();
+            var monto = document.getElementById('monto2').value
+            if (id_cuenta == "" || monto == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Todos los campos son obligatorios!',
+                })
+            }
+            else {
+                if (monto > this.saldo) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No cuenta con saldo suficiente para la transferencia!',
+                    })
+                }
+                else {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: '¡Transferencia realizada!',
+                        showConfirmButton: false,
+                        timer: 1700,
+                    })
+                    var nuevoMonto = this.saldo - monto
+                    let payload = {
+                        monto: monto,
+                        comentario: "",
+                        id_cuenta_origen: this.id_cuenta,
+                        id_cuenta_destino: id_cuenta,
+                        saldo: nuevoMonto
+                    }
+                    await axios
+                        .post("http://localhost:3000/transferir/", payload)
+                        .then((result) => {
+                            this.took = result.data;
+                            console.log(this.took)
+                            this.dialog = false;
+
+                        }).catch(e => {
+                            console.log(e);
+                        });
+                    location.reload();
+                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                    window.location.href = "/transfer";
+
+                }
+            }
+
+        },
+
+        cancelarTransf2() {
             Swal.fire({
                 title: '¿Desea cancelar la transferencia',
                 text: "Si cancela perderá el avance del proceso",
@@ -367,46 +517,138 @@ export default {
                 }
             })
         },
-        transferenciaMC() {
-            var monto = document.getElementById('monto1').value
-            if (monto > this.cuenta.saldo) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'No cuenta con saldo suficiente para la transferencia!',
-                })
-            }
-            else{
-                console.log("se pue" )
-            }
-        },
-        transferenciaMCont(){
-            var monto = document.getElementById('monto2').value
-            if (monto > this.cuenta.saldo) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'No cuenta con saldo suficiente para la transferencia!',
-                })
-            }
-            else{
-                console.log("se pue" )
-            }
-        },
-        transferenciaNCont(){
+        async transferenciaMCont(id_cuenta) {
+            await this.obtenerLocalStorage();
             var monto = document.getElementById('monto3').value
-            if (monto > this.cuenta.saldo) {
+            if (id_cuenta == "" || monto == "") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'No cuenta con saldo suficiente para la transferencia!',
+                    text: 'Todos los campos son obligatorios!',
                 })
             }
-            else{
-                console.log("se pue")
-            }       
-        }
+            else {
+                if (monto > this.saldo) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No cuenta con saldo suficiente para la transferencia!',
+                    })
+                }
+                else {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: '¡Transferencia realizada!',
+                        showConfirmButton: false,
+                        timer: 1700,
+                    })
+                    var nuevoMonto = this.saldo - monto
+                    let payload = {
+                        monto: monto,
+                        comentario: "",
+                        id_cuenta_origen: this.id_cuenta,
+                        id_cuenta_destino: id_cuenta,
+                        saldo: nuevoMonto
+                    }
+                    await axios
+                        .post("http://localhost:3000/transferir/", payload)
+                        .then((result) => {
+                            this.took = result.data;
+                            console.log(this.took)
+                            this.dialog = false;
 
+                        }).catch(e => {
+                            console.log(e);
+                        });
+                    location.reload();
+                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                    window.location.href = "/transfer";
+
+                }
+            }
+        },
+
+        cancelarTransf3() {
+            Swal.fire({
+                title: '¿Desea cancelar la transferencia',
+                text: "Si cancela perderá el avance del proceso",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, cancelar transferencia!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Cancelando',
+                        'Transferencia cancelada!',
+                        'success'
+                    )
+                    this.modal4();
+                }
+            })
+        },
+        async transferenciaNCont(id_bank) {
+            var monto = document.getElementById('monto4').value
+            var n_cuenta = document.getElementById('ncuenta4').value
+            if (monto == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Todos los campos son obligatorios!',
+                })
+            }
+            else {
+                if (monto > this.cuenta.saldo) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No cuenta con saldo suficiente para la transferencia!',
+                    })
+                }
+                else {
+                    if (id_bank == 1) {
+                       
+                        await Swal.fire({
+                        icon: 'success',
+                        title: '¡Transferencia realizada!',
+                        showConfirmButton: false,
+                        timer: 1700,
+                    })
+                    var nuevoMonto = this.saldo - monto
+                    let payload = {
+                        monto: monto,
+                        comentario: "",
+                        id_cuenta_origen: this.id_cuenta,
+                        id_cuenta_destino: 0,
+                        saldo: nuevoMonto,
+                        n_cuenta: n_cuenta
+                    }
+                    await axios
+                        .post("http://localhost:3000/transferir/", payload)
+                        .then((result) => {
+                            this.took = result.data;
+                            console.log(this.took)
+                            this.dialog = false;
+
+                        }).catch(e => {
+                            console.log(e);
+                        });
+                    location.reload();
+                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                    window.location.href = "/transfer";
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops...',
+                            text: 'Transferencia a otros bancos en mantenimiento!',
+                        })
+                    }
+                }
+            }
+        }
     },
     async mounted() {
         await this.obtenerLocalStorage();
@@ -415,6 +657,8 @@ export default {
             .then((result) => {
                 this.cuenta = result.data;
                 this.tipo_cuenta = this.cuenta.tipo_cuenta;
+                this.saldo = this.cuenta.saldo;
+            
             }).catch(e => {
                 console.log(e);
             });
@@ -430,6 +674,7 @@ export default {
             .then((result) => {
                 this.miscuentas = result.data;
                 this.miscuentas = this.miscuentas.filter(cuenta => cuenta.n_cuenta != this.n_cuenta);
+
             }).catch(e => {
                 console.log(e);
             });
@@ -552,15 +797,7 @@ a {
 
 }
 
-.input-box1 {
-    height: 70px;
-    width: 100%;
-    align-items: center;
-    margin: 10px;
-    position: relative;
-    font-size: 24px;
-    align-items: center;
-}
+
 
 a:hover {
     text-decoration: underline;
@@ -586,74 +823,6 @@ a:hover {
     color: var(--color-text1)
 }
 
-.modal-container2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-    visibility: hidden;
-}
-
-.modal-container3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-    visibility: hidden;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    text-align: right;
-    width: 130px;
-    float: left;
-    padding: 3px;
-    text-align: center;
-
-}
-
-.modal-content {
-    width: 1000px;
-    height: auto;
-    padding: 10px;
-    border-radius: 25px;
-    text-align: center;
-    background-color: var(--color-text2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-
-.modal-content3 {
-    width: 700px;
-    height: auto;
-    padding: 10px;
-    border-radius: 25px;
-    text-align: center;
-    background-color: var(--color-text2);
-}
-
-
-.modal-content h2 {
-    font-size: 25px;
-    font-weight: 400px;
-}
-
-
 #close {
     height: 100%;
     width: 100%;
@@ -668,7 +837,116 @@ label {
     color: var(--color-text1)
 }
 
-.modal-container {
+.espacio {
+    color: transparent;
+
+}
+
+.fi-rr-user-add {
+    cursor: pointer;
+    border: solid 2px #fff;
+    padding: 5px;
+    border-radius: 25%;
+    text-decoration: none;
+}
+
+.input-box2 {
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.input-2 {
+    color: var(--color-text2);
+    background: var(--color1);
+    border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 30px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid var(--color1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.input-2:hover {
+    background: var(--color4);
+    color: var(--color-text1)
+}
+
+.input-box1 {
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.input-1 {
+    color: var(--color-text2);
+    background: var(--color1);
+    border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 30px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid var(--color1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.input-1:hover {
+    background: var(--color4);
+    color: var(--color-text1)
+}
+
+.input-box3 {
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.input-3 {
+    color: var(--color-text2);
+    background: var(--color1);
+    border-radius: 6px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 30px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid var(--color1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.input-3:hover {
+    background: var(--color4);
+    color: var(--color-text1)
+}
+
+
+
+
+.modal-container1 {
     position: absolute;
     top: 0;
     left: 0;
@@ -680,24 +958,29 @@ label {
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1;
     visibility: hidden;
-
 }
 
-.select-transf,
-.monto-trans {
-    border: 4px solid var(--color-text1);
-    padding: 5px;
-    width: 100%;
-    height: 60px;
+.modal-content1 {
+    width: 500px;
+    height: auto;
+    padding: 10px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: var(--color-text2);
 }
 
-.select-transf,
-.option-transf,
-.monto-trans {
-    font-size: 16px;
+.cancel {
+    background-color: transparent;
+    border: transparent;
+    color: #333;
 }
 
-#formulario3 {
+.input-1:hover {
+    background: var(--color4);
+    color: var(--color-text1)
+}
+
+#formularioNC {
     margin-top: 40px;
     border-radius: 15px;
     margin: 0 auto;
@@ -705,18 +988,11 @@ label {
 
     padding: 14px;
     background: var(--color-text2);
-
 }
 
-
-#formulario3 h2,
-.modal-container3 h2 {
-    text-decoration: underline var(--color-text1);
-}
-
-#formulario3 input,
-.select-nc,
-.option-nc {
+#formularioNC input,
+#formularioNC select,
+#formularioNC option {
     float: left;
     font-size: 12px;
     padding: 2px 2px;
@@ -724,6 +1000,18 @@ label {
     width: 200px;
     height: 40px;
     margin: 2px 10px 8px;
+    border: 4px solid var(--color-text1);
+    width: 100%;
+    height: 60px;
+}
 
+#formularioNC label {
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    width: 130px;
+    float: left;
+    padding: 3px;
+    text-align: center;
 }
 </style>

@@ -21,17 +21,17 @@
                 <h2>Para continuar seleccione una cuenta.</h2>
             </div>
             <div class="container">
-                <a href="/" v-for="(cuenta, id) in cuentas" :key="id" @click.prevent="selectAccount(cuenta.tipo_cuenta,cuenta.n_cuenta,cuenta.saldo)">
+                <a href="/" v-for="(cuenta, id) in cuentas" :key="id" @click.prevent="selectAccount(cuenta.id,cuenta.tipo_cuenta,cuenta.n_cuenta,cuenta.saldo)">
                     <div class="account-content">
                         <div class="account-info1">
                             <h2>{{ cuenta.tipo_cuenta }}</h2>
                             <hr>
-                            <h2> {{ cuenta.n_cuenta }}</h2>
+                            <h2>n°: {{ cuenta.n_cuenta }}</h2>
                         </div>
                         <div class="account-info2">
                             <h2>Saldo disponible </h2>
                             <hr>
-                            <h2> {{ cuenta.saldo }}</h2>
+                            <h2> ${{ cuenta.saldo }}</h2>
                         </div>
                     </div>
                 </a>
@@ -88,10 +88,11 @@ export default {
             this.id_usuario = localStorage.getItem("id_st_usuario")
             this.nombre_profesor = localStorage.getItem("nombre_st_usuario")
         },
-        selectAccount(n_cuenta,tipo_cuenta,saldo) {
+        selectAccount(id,n_cuenta,tipo_cuenta,saldo) {
             localStorage.setItem("n_cuenta_st", tipo_cuenta);
             localStorage.setItem("tipo_cuenta_st", n_cuenta);
             localStorage.setItem("saldo_cuenta_st", saldo);
+            localStorage.setItem("id_cuenta_st",id);
             window.location.href = "/record"
         }
         
