@@ -52,7 +52,10 @@ const getContactos = async (req, res) => {
     where C.id_usuario1 = $1 and C.id_cuenta = CC.id and CC.id_banco = B.id and C.id_usuario2 = U.id', [req.params.id]);
     res.json(response.rows);
 };
-
+const getAllCuentas = async (req, res) =>{
+    const response = await pool.query('select id,n_cuenta from t_cuenta');
+    res.json(response.rows);
+};
 const postContacto = async (req, res) => {
     const rut = req.params.rut;
     const { rut_usuario2, n_cuenta } = req.body.params;
@@ -95,8 +98,6 @@ const postTransferencia = async (req, res) => {
     res.send('Transferencia realizada con exito!')
 };
 
-
-
 const getBancos = async (req, res) =>{
     const response = await pool.query('select * from t_banco');
     res.json(response.rows);
@@ -114,7 +115,8 @@ module.exports = {
     postContacto,
     deleteContacto,
     postTransferencia,
-    getBancos
+    getBancos,
+    getAllCuentas
 }
 
 

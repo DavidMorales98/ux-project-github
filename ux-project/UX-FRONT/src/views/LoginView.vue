@@ -17,11 +17,10 @@
                                 <input class="placeholder form" id="email-user" type="email"
                                     placeholder="Ingrese su email" required>
                             </div>
-                            <h4 class="subtitle-input">Sin puntos y guión, ej: 11111111-1</h4>
                             <div class="input-box">
                                 <i class="fi fi-rr-lock"></i>
                                 <input class="placeholder" id="pswrd" type="password"
-                                    placeholder="Ingrese su contraseña" required>
+                                    placeholder="Ingrese su contraseña" required maxlength="20" minlength="8">
                                 <i class="fi fi-rr-eye " id="toggle" @click="show()"></i>
                             </div>
                             <div class="button input-box">

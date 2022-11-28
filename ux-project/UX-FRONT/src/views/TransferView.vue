@@ -106,7 +106,8 @@
                         placeholder="Indique el nombre y apellido" />
                     <label>RUT</label>
                     <input type="text" id="rut" name="nombre" required=""
-                        placeholder="Indique RUT sin puntos ni digito verificador" />
+                        placeholder="Indique RUT sin puntos ni digito verificador" minlength="11111111"
+                        max="999999999" />
                     <label>Correo</label>
                     <input type="email" id="name" name="nombre" required="" placeholder="Indique correo electrónico" />
                     <label>Banco</label>
@@ -191,8 +192,9 @@
                     <input type="text" id="nombre4" name="nombre" required=""
                         placeholder="Indique el nombre y apellido" />
                     <label>RUT</label>
-                    <input type="text" id="rut4" name="nombre" required=""
-                        placeholder="Indique RUT sin puntos ni digito verificador" />
+                    <input type="number" id="rut4" name="nombre" required=""
+                        placeholder="Indique RUT sin puntos ni digito verificador" minlength="11111111"
+                        max="999999999" />
                     <label>Correo</label>
                     <input type="email" id="email4" name="nombre" required=""
                         placeholder="Indique correo electrónico" />
@@ -245,7 +247,8 @@ export default {
         todook: '',
         dialog: false,
         saldo: 0,
-        selectedBank2: ''
+        selectedBank2: '',
+        ctasSistema: []
 
 
     }),
@@ -425,7 +428,7 @@ export default {
 
         cancelarTransf() {
             Swal.fire({
-                title: '¿Desea cancelar la transferencia',
+                title: '¿Desea cancelar la transferencia?',
                 text: "Si cancela perderá el avance del proceso",
                 icon: 'warning',
                 showCancelButton: true,
@@ -608,43 +611,95 @@ export default {
                     })
                 }
                 else {
-                    if (id_bank == 1) {
-                       
-                        await Swal.fire({
-                        icon: 'success',
-                        title: '¡Transferencia realizada!',
-                        showConfirmButton: false,
-                        timer: 1700,
-                    })
                     var nuevoMonto = this.saldo - monto
-                    let payload = {
-                        monto: monto,
-                        comentario: "",
-                        id_cuenta_origen: this.id_cuenta,
-                        id_cuenta_destino: 0,
-                        saldo: nuevoMonto,
-                        n_cuenta: n_cuenta
-                    }
-                    await axios
-                        .post("http://localhost:3000/transferir/", payload)
-                        .then((result) => {
-                            this.took = result.data;
-                            console.log(this.took)
-                            this.dialog = false;
+                    if (id_bank == 1) {
 
-                        }).catch(e => {
-                            console.log(e);
-                        });
-                    location.reload();
-                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
-                    window.location.href = "/transfer";
+                        if (this.ctasSistema.find(cta => cta.n_cuenta == n_cuenta)) {
+                            await Swal.fire({
+                                icon: 'success',
+                                title: '¡Transferencia realizada!',
+                                showConfirmButton: false,
+                                timer: 1700,
+                            })
+
+                            let payload = {
+                                monto: monto,
+                                comentario: "",
+                                id_cuenta_origen: this.id_cuenta,
+                                id_cuenta_destino: 0,
+                                saldo: nuevoMonto,
+                                n_cuenta: n_cuenta
+                            }
+                            await axios
+                                .post("http://localhost:3000/transferir/", payload)
+                                .then((result) => {
+                                    this.took = result.data;
+                                    console.log(this.took)
+                                    this.dialog = false;
+
+                                }).catch(e => {
+                                    console.log(e);
+                                });
+                            location.reload();
+                            localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                            window.location.href = "/transfer";
+                        }
+                        else {
+                            await Swal.fire({
+                                icon: 'success',
+                                title: '¡Transferencia realizada!',
+                                showConfirmButton: false,
+                                timer: 1700,
+                            })
+                            let payload = {
+                                monto: monto,
+                                comentario: "",
+                                id_cuenta_origen: this.id_cuenta,
+                                id_cuenta_destino: 9,
+                                saldo: nuevoMonto,
+                            }
+                            await axios
+                                .post("http://localhost:3000/transferir/", payload)
+                                .then((result) => {
+                                    this.took = result.data;
+                                    console.log(this.took)
+                                    this.dialog = false;
+
+                                }).catch(e => {
+                                    console.log(e);
+                                });
+                            location.reload();
+                            localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                            window.location.href = "/transfer";
+                        }
                     }
                     else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops...',
-                            text: 'Transferencia a otros bancos en mantenimiento!',
+                        await Swal.fire({
+                            icon: 'success',
+                            title: '¡Transferencia realizada!',
+                            showConfirmButton: false,
+                            timer: 1700,
                         })
+                        let payload = {
+                            monto: monto,
+                            comentario: "",
+                            id_cuenta_origen: this.id_cuenta,
+                            id_cuenta_destino: 9,
+                            saldo: nuevoMonto,
+                        }
+                        await axios
+                            .post("http://localhost:3000/transferir/", payload)
+                            .then((result) => {
+                                this.took = result.data;
+                                console.log(this.took)
+                                this.dialog = false;
+
+                            }).catch(e => {
+                                console.log(e);
+                            });
+                        location.reload();
+                        localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+                        window.location.href = "/transfer";
                     }
                 }
             }
@@ -658,7 +713,7 @@ export default {
                 this.cuenta = result.data;
                 this.tipo_cuenta = this.cuenta.tipo_cuenta;
                 this.saldo = this.cuenta.saldo;
-            
+
             }).catch(e => {
                 console.log(e);
             });
@@ -674,6 +729,14 @@ export default {
             .then((result) => {
                 this.miscuentas = result.data;
                 this.miscuentas = this.miscuentas.filter(cuenta => cuenta.n_cuenta != this.n_cuenta);
+
+            }).catch(e => {
+                console.log(e);
+            });
+        await axios
+            .get("http://localhost:3000/cuentas")
+            .then((result) => {
+                this.ctasSistema = result.data;
 
             }).catch(e => {
                 console.log(e);

@@ -14,7 +14,8 @@ getContactos,
 postContacto,
 deleteContacto,
 postTransferencia,
-getBancos
+getBancos,
+getAllCuentas
 } = require('../controllers/index.controllers.js');
 
 
@@ -23,7 +24,7 @@ router.get('/conexion',conexion);
 //Login
 router.get('/usuario/:correo', getUsuario); //Información del usuario a partir de un correo
 router.get('/bancos',getBancos);
-
+router.get('/cuentas', getAllCuentas);
 //Account
 router.get('/cuentas/:id', getCuentas);//Cuentas asociadas a partir un id
 router.get('/cuenta/:ncta', getCuenta); //Obtener detalle cuenta a partir del n_cuenta
