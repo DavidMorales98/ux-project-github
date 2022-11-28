@@ -73,7 +73,7 @@ export default {
         validarContrasena() {
             var passField = document.getElementById('pswrd');
             // Expresion regular para validar el correo electronico institucional
-            var validPass = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,20}$/g;
+            var validPass = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{9}$/g;
 
             // Using test we can check if the text match the pattern
             if (validPass.test(passField.value)) {
