@@ -51,8 +51,9 @@
         </div>
         <div class="section-transfer">
             <div class="section-contact">
-                <h1 class="ts">Mis contactos<span class="espacio">________</span><i class="fi fi-rr-user-add"
-                        @click.prevent="modal1()"></i></h1>
+                <h1 class="ts">Mis contactos</h1>
+                <!--<span class="espacio">________</span><i class="fi fi-rr-user-add"
+                        @click.prevent="modal1()"></i>-->
                 <div class="container-section-contact">
                     <a href="#" v-for="(contacto, id) in contactos" :key="id"
                         @click.prevent="eliminarContacto(contacto.id)">
@@ -496,15 +497,13 @@ export default {
                                 }).catch(e => {
                                     console.log(e);
                                 });
-                            location.reload();
                             localStorage.setItem("saldo_cuenta_st", nuevoMonto);
-                            
+                            this.modal2();
                         }
                     })
 
                 }
             }
-
         },
 
         cancelarTransf2() {
@@ -539,44 +538,49 @@ export default {
                 })
             }
             else {
-                if (monto > this.saldo) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'No cuenta con saldo suficiente para la transferencia!',
-                    })
-                }
-                else {
-                    await Swal.fire({
-                        icon: 'success',
-                        title: '¡Transferencia realizada!',
-                        showConfirmButton: false,
-                        timer: 1700,
-                    })
-                    var nuevoMonto = this.saldo - monto
-                    let payload = {
-                        monto: monto,
-                        comentario: "",
-                        id_cuenta_origen: this.id_cuenta,
-                        id_cuenta_destino: id_cuenta,
-                        saldo: nuevoMonto
+                Swal.fire({
+                    title: 'Confirmación',
+                    text: "¿Confirma que los datos son correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, transferir!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Transferencia',
+                            'Transferencia realizada con exito!',
+                            'success'
+                        )
+                        var nuevoMonto = this.saldo - monto
+                        let payload = {
+                            monto: monto,
+                            comentario: "",
+                            id_cuenta_origen: this.id_cuenta,
+                            id_cuenta_destino: id_cuenta,
+                            saldo: nuevoMonto
+                        }
+                        axios
+                            .post("http://localhost:3000/transferir/", payload)
+                            .then((result) => {
+                                this.took = result.data;
+                                console.log(this.took)
+                                this.dialog = false;
+
+                            }).catch(e => {
+                                console.log(e);
+                            });
+                        this.modal3();
+                        localStorage.setItem("saldo_cuenta_st", nuevoMonto);
+
                     }
-                    await axios
-                        .post("http://localhost:3000/transferir/", payload)
-                        .then((result) => {
-                            this.took = result.data;
-                            console.log(this.took)
-                            this.dialog = false;
 
-                        }).catch(e => {
-                            console.log(e);
-                        });
-                    location.reload();
-                    localStorage.setItem("saldo_cuenta_st", nuevoMonto);
-                    window.location.href = "/transfer";
+                })
 
-                }
             }
+
         },
 
         cancelarTransf3() {

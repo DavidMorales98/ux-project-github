@@ -17,7 +17,7 @@
         <section>
             <div class="section-text">
                 <h1>¡Bienvenido!</h1>
-                <h1> David Morales</h1>
+                <h1> {{ nombre_usuario }}</h1>
                 <h2>Para continuar seleccione una cuenta.</h2>
             </div>
             <div class="container">
@@ -84,9 +84,10 @@ export default {
             })
         },
         obtenerLocalStorage() {
-            //obteniendo rut usuario
+            this.n_cuenta = localStorage.getItem("n_cuenta_st")
+            this.nombre_usuario = localStorage.getItem("nombre_st_usuario")
             this.id_usuario = localStorage.getItem("id_st_usuario")
-            this.nombre_profesor = localStorage.getItem("nombre_st_usuario")
+            this.id_cuenta = localStorage.getItem("id_cuenta_st")
         },
         selectAccount(id,n_cuenta,tipo_cuenta,saldo) {
             localStorage.setItem("n_cuenta_st", tipo_cuenta);
