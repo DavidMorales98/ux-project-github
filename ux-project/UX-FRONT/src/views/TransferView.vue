@@ -538,7 +538,14 @@ export default {
                 })
             }
             else {
-                Swal.fire({
+                if (monto > this.saldo) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No cuenta con saldo suficiente para la transferencia!',
+                    })
+                }
+                else{Swal.fire({
                     title: 'Confirmación',
                     text: "¿Confirma que los datos son correctos?",
                     icon: 'warning',
@@ -578,7 +585,7 @@ export default {
                     }
 
                 })
-
+            }
             }
 
         },
