@@ -52,7 +52,8 @@ export default {
 
         datos_usuario: null,//json recibido por api rest
         activador: false,
-        activador_pass: false
+        activador_pass: false,
+        usuariosSistema: []
     }),
 
     methods: {
@@ -70,27 +71,23 @@ export default {
                 icon.classList.add("fi-rr-eye");
             }
         },
-        validarContrasena() {
-            var passField = document.getElementById('pswrd');
-            // Expresion regular para validar el correo electronico institucional
-            var validPass = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{9}$/g;
+        validarContrasena(contrasena) {
 
             // Using test we can check if the text match the pattern
-            if (validPass.test(passField.value)) {
+            if (this.usuariosSistema.find(cta => cta.contrasena == contrasena)) {
                 return true;
             }
             else {
                 return false;
             }
         },
-        validarCorreo() {
-            var emailField = document.getElementById('email-user');
+        validarCorreo(correo) {
             // Expresion regular para validar el correo electronico institucional
-            var validEmail = /(^[a-zA-Z]+)([.])([a-zA-Z]+)([.][a-zA-Z])?@usach([.])cl/g;
 
             // Using test we can check if the text match the pattern
-            if (validEmail.test(emailField.value)) {
+            if (this.usuariosSistema.find(cta => cta.correo == correo)) {
                 return true;
+
             }
             else {
                 return false;
@@ -135,30 +132,14 @@ export default {
             var correo = document.getElementById('email-user').value;
             var contrasena = document.getElementById('pswrd').value;
             if (correo != "" && contrasena != "") {
-                if (this.$options.methods.validarCorreo.bind(this)() == true && this.$options.methods.validarContrasena.bind(this)() == false) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Los campos correo o contraseña son incorrectos!',
-                    })
-                }
-                else if (this.$options.methods.validarCorreo.bind(this)() == false && this.$options.methods.validarContrasena.bind(this)() == true) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Los campos correo o contraseña son incorrectos!',
-                    })
-                }
-                else {
-                    if (this.$options.methods.validarCorreo.bind(this)() && this.$options.methods.validarContrasena.bind(this)()) {
+                if (this.validarCorreo(correo) && this.validarContrasena(contrasena)) {
                         //revisar si el usuario existe en la base de datos
+                        console.log("damo dentro")
                         await this.existeUsuario();
                         //se guarda el rut del usuario en el local storage (asi se puede mantener su sesión)
                         await this.guardar();
                         //verificar contraseña
                         await this.contrasena();
-
-
                         //verificación variable: activador
                         //si activador es true -> el usuario pertenece a la base de datos,
                         //caso contrario, es una persona no registrada en la plataforma.
@@ -175,8 +156,16 @@ export default {
                             window.location.href = "/account";
                             return true;
                         }
-                    }
+            
                 }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Los campos correo o contraseña son incorrectos!',
+                    })
+                }
+
             }
             else {
                 Swal.fire({
@@ -194,12 +183,22 @@ export default {
                 text: 'Lo sentimos, sitio en mantención',
             })
         }
+    },
+    async mounted() {
+        await axios
+            .get("http://localhost:3000/usuarios")
+            .then((result) => {
+                this.usuariosSistema = result.data;
+
+            }).catch(e => {
+                console.log(e);
+            });
     }
 }
 </script>
 
 <style>
-.body-login{
+.body-login {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -56,7 +56,7 @@
                         @click.prevent="modal1()"></i>-->
                 <div class="container-section-contact">
                     <a href="#" v-for="(contacto, id) in contactos" :key="id"
-                        @click.prevent="eliminarContacto(contacto.id)">
+                    @click.prevent="modal3()">
                         <div class="account-content">
                             <div class="account-info1">
                                 <h2>{{ contacto.nombre }}</h2>
@@ -149,7 +149,7 @@
                         </option>
                     </select>
                     <label>Monto ($)</label>
-                    <input type="number" id="monto2" name="monto" required="" placeholder="Ingrese el monto" />
+                    <input type="number" id="monto2" name="monto" required="" placeholder="Ingrese el monto" min="1"/>
                     <div class="input-box1">
 
                         <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
@@ -173,7 +173,7 @@
                             {{ contacto.ncuenta }} - {{ contacto.nombre }}</option>
                     </select>
                     <label>Monto ($)</label>
-                    <input type="number" id="monto3" name="monto" required="" placeholder="Ingrese el monto" />
+                    <input type="number" id="monto3" name="monto" required="" placeholder="Ingrese el monto"  min="1"/>
                     <div class="input-box1">
                         <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
                             @click.prevent="transferenciaMCont(selected3)">
@@ -216,7 +216,7 @@
                     <input type="number" id="ncuenta4" name="nombre" required=""
                         placeholder="Indique el numero de cuenta" />
                     <label>Monto ($)</label>
-                    <input type="number" id="monto4" name="monto" required="" placeholder="Ingrese el monto" />
+                    <input type="number" id="monto4" name="monto" required="" placeholder="Ingrese el monto" min="1"/>
                     <div class="input-box1">
                         <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
                             @click.prevent="transferenciaNCont(selectedBank2)">
@@ -226,6 +226,29 @@
                 </div>
             </div>
 
+        </div>
+        <div id="modal5" class="modal-container1">
+            <div class="modal-content1">
+                <div id="formularioNC">
+                    <div class="sub">
+                        <h2>Transferir a mis contactos</h2>
+                    </div>
+                    <label>Contacto</label>
+                    <select v-model="selected3" placeholder="Indique un contacto">
+                        <option disabled value="">Indique un contacto</option>
+                        <option v-for="contacto in contactos" :key="contacto.id" :value="contacto.id_cuenta">
+                            {{ contacto.ncuenta }} - {{ contacto.nombre }}</option>
+                    </select>
+                    <label>Monto ($)</label>
+                    <input type="number" id="monto3" name="monto" required="" placeholder="Ingrese el monto"  min="1"/>
+                    <div class="input-box1">
+                        <input class="input-1" type="button" id="msg-info-mail" value="Transferir"
+                            @click.prevent="transferenciaMCont(selected3)">
+                        <input class="input-1 cancel" type="button" id="msg-info-mail" value="Cancelar"
+                            @click.prevent="cancelarTransf2()">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -283,6 +306,15 @@ export default {
         },
         modal4() {
             let modal = document.getElementById('modal4');
+            if (modal.style.visibility == "visible") {
+                modal.style.visibility = "hidden";
+            }
+            else {
+                modal.style.visibility = "visible";
+            }
+        },
+        modal5() {
+            let modal = document.getElementById('modal5');
             if (modal.style.visibility == "visible") {
                 modal.style.visibility = "hidden";
             }
@@ -462,6 +494,13 @@ export default {
                         text: 'No cuenta con saldo suficiente para la transferencia!',
                     })
                 }
+                else if (monto <=  0) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '¡Monto incorrecto! Montos mayor o igual a 1',
+                    })
+                }
                 else {
                     await Swal.fire({
                         title: 'Confirmación',
@@ -545,6 +584,13 @@ export default {
                         text: 'No cuenta con saldo suficiente para la transferencia!',
                     })
                 }
+                else if (monto <=  0) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '¡Monto incorrecto! Montos mayor o igual 1',
+                    })
+                }
                 else{Swal.fire({
                     title: 'Confirmación',
                     text: "¿Confirma que los datos son correctos?",
@@ -612,9 +658,12 @@ export default {
             })
         },
         async transferenciaNCont(id_bank) {
+            var nombre = document.getElementById('nombre4').value
+            var rut = document.getElementById('rut4').value
+            var correo =document.getElementById('email4').value
             var monto = document.getElementById('monto4').value
             var n_cuenta = document.getElementById('ncuenta4').value
-            if (monto == "") {
+            if (monto == "" || nombre =="" || rut == "" || correo == "" || n_cuenta == "") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -627,6 +676,13 @@ export default {
                         icon: 'error',
                         title: 'Oops...',
                         text: 'No cuenta con saldo suficiente para la transferencia!',
+                    })
+                }
+                else if (monto <=  0) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '¡Monto incorrecto! Montos mayor o igual a 1',
                     })
                 }
                 else {
@@ -845,7 +901,7 @@ export default {
     font-size: 24px;
 }
 
-.input-box input {
+.input-box input{
     height: 100%;
     width: 100%;
     outline: none;
@@ -893,7 +949,7 @@ a:hover {
 
 .button input {
     color: var(--color-text2);
-    background: var(--color1);
+    background: #6d9886;
     border-radius: 6px;
     padding: 0;
     cursor: pointer;
@@ -941,7 +997,7 @@ a:hover {
 
 .input-2 {
     color: var(--color-text2);
-    background: var(--color1);
+    background: #6d9886;
     border-radius: 6px;
     padding: 0;
     cursor: pointer;
@@ -972,7 +1028,7 @@ a:hover {
 
 .input-1 {
     color: var(--color-text2);
-    background: var(--color1);
+    background: #6d9886;
     border-radius: 6px;
     padding: 0;
     cursor: pointer;
@@ -1003,7 +1059,7 @@ a:hover {
 
 .input-3 {
     color: var(--color-text2);
-    background: var(--color1);
+    background:#6d9886;
     border-radius: 6px;
     padding: 0;
     cursor: pointer;
@@ -1091,9 +1147,9 @@ a:hover {
     display: block;
     font-weight: bold;
     text-align: right;
-    width: 130px;
-    float: left;
+    width: 300px;
     padding: 3px;
-    text-align: center;
+    text-align: start;
+    margin-left: 10px;
 }
 </style>

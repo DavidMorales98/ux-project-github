@@ -1,10 +1,10 @@
 const { Pool } = require('pg');
 const pool = new Pool({
     user: 'postgres',
-    host: '170.79.232.136',
-    database: 'ux',
+    host: 'localhost',
+    database: 'ux-local',
     password: '1234',
-    port: 5432
+    port: 5433
 });
 
 const conexion = (req, res) => {
@@ -15,6 +15,10 @@ const getUsuario = async (req, res) => {
     const response = await pool.query('SELECT * from t_usuario\
         WHERE correo = $1', [req.params.correo]);
     res.json(response.rows[0]);
+};
+const getUsuarios = async (req, res) => {
+    const response = await pool.query('SELECT * from t_usuario');
+    res.json(response.rows);
 };
 
 const getCuentas = async (req, res) => {
@@ -107,6 +111,7 @@ module.exports = {
     getUsuario,
     getCuentas,
     getCuenta,
+    getUsuarios,
     /*
     getAbonos,
     getCargos,
